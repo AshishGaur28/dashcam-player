@@ -1,0 +1,26 @@
+{
+  "name": "dashcam-player",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Plays Wolfbox G840S dashcam recordings in the browser: front and rear together, one trip timeline, route and speed on a map. Tested only with Wolfbox G840S files.",
+  "license": "MIT",
+  "author": "Ashish Gaur",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AshishGaur28/dashcam-player.git"
+  },
+  "type": "module",
+  "scripts": {
+    "bundle": "vite build && node scripts/bundle.mjs"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "mux.js": "^6.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.5"
+  }
+}
