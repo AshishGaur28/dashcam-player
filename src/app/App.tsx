@@ -494,7 +494,7 @@ export function App() {
         </section>
       )}
 
-      <main hidden={showHero} className={mapOnly ? 'maponly' : ''}>
+      <main hidden={showHero} className={mapOnly || !loaded ? 'maponly' : ''}>
         <div className="left">
           {mapOnly && loaded && (
             <div className="mapstage">
