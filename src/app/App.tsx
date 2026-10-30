@@ -12,6 +12,7 @@ import { GpsTimeline } from '../gps/GpsTimeline';
 import type { SpeedUnit } from '../gps/units';
 import { PlaybackController } from '../media/PlaybackController';
 import { filesFromDrop, mergeFiles, wanted } from './files';
+import { VERSION, VERSION_LABEL } from '../version';
 import { loadPrefs, savePrefs } from './prefs';
 import type { PairResult } from '../recordings/RecordingPairer';
 import { GpsStore } from '../gps/GpsStore';
@@ -357,7 +358,9 @@ export function App() {
         <div className="brand">
           <span className="logo" aria-hidden="true">◉</span>
           <div>
-            <h1>Dashcam Player</h1>
+            <h1>
+              Dashcam Player <small className="ver" title="Version of this player">v{VERSION}</small>
+            </h1>
             {summary && <p className="trip-sum">{summary}</p>}
           </div>
         </div>
@@ -431,6 +434,7 @@ export function App() {
                 <dt>M</dt><dd>Mute</dd>
                 <dt>F</dt><dd>Full screen</dd>
               </dl>
+              <p className="muted ver-line">Dashcam Player {VERSION_LABEL}</p>
               <button className="ghost" onClick={() => { try { localStorage.removeItem('dashcam-player-prefs-v1'); } catch { /* nothing saved */ } location.reload(); }} title="Forget the options this browser remembers">Reset remembered options</button>
             </div>
           </details>
@@ -486,7 +490,7 @@ export function App() {
               )}
             </div>
           </div>
-          <p className="hero-foot">Tested only with Wolfbox G840S recordings · everything stays on your computer</p>
+          <p className="hero-foot">{VERSION_LABEL} · Tested only with Wolfbox G840S recordings · everything stays on your computer</p>
         </section>
       )}
 

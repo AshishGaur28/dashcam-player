@@ -9,6 +9,37 @@ map, all in sync. Everything runs in your browser; nothing is uploaded and your 
 
 Not affiliated with, endorsed by or supported by Wolfbox; the name is used only to say which camera this was made for.
 
+## What it can do
+
+**Put a whole trip together from many files**
+- Load clips from **several folders and several drops**, in any order, and add more at any time while playing. Front and rear are paired by file name
+  and everything is merged into **one continuous timeline** (one scrubber for the whole trip). Clips can be raw `.TS` or `.mp4`, even mixed.
+- The timeline marks what is missing: a camera absent for a clip (amber hatching), footage missing between two clips (red mark), and which clips have GPS.
+  Duplicate clips are reported and the larger file is kept.
+
+**Combine the GPS of all files into one map**
+- Each clip's GPS is read and joined into **one route on one map**, with the car marker moving along it as you play (or scrub). A hole in the GPS
+  is left as a gap, not joined with a made-up line. **Click any point on the route to jump the video to that moment.**
+- GPS comes from the recordings themselves; `.gpx` files (one per clip, or one for the whole trip) can replace it. GPS offset and speed unit
+  (knots, m/s, km/h, mph) are adjustable. Speed, heading (with a compass) and coordinates update with the video.
+- **Route preview (GPS only)** reads just the GPS of all loaded files and draws the full route before any video is opened; *Map only* view then lets you
+  play along the route with no video at all.
+
+**Watch front and rear together**
+- Picture-in-picture with a one-click swap of the big and small camera, or front only, rear only. Front and rear stay in sync (a rear offset can be set).
+- A panel on the picture shows speed, time of day and date and covers the camera's own burned-in text (can be switched off to see the original picture).
+- Click the picture to play/pause; speed 0.5×–4×; sound from either camera; full screen; keyboard shortcuts.
+
+**Work with long, large recordings**
+- Plays directly from the files on your disk or card in short windows, so memory stays around 100–130 MB for front + rear, and the next part is prepared
+  while you watch (a strip under the timeline shows what is ready). Hand-overs between windows and clips are made to be seamless.
+- Built for trips of many clips (the sample card has 46) and restarts by itself if playback ever stops; a Diagnostics tab and *Copy report* help with bug reports.
+
+**Private and simple**
+- No upload, no account, no install: one HTML file that runs in the browser. Your options (speed, sound, view, GPS on/off, unit) are remembered in that browser only.
+
+**What it is not:** it does not edit, trim, export or convert your recordings (they are only read), and it has been tested only with Wolfbox G840S files.
+
 ## Use it (nothing to install)
 
 Open **`release/DashcamPlayer.html`** in Chrome, Edge or Safari. It is one self-contained file (about 740 KB): no Node, no server, no
@@ -69,6 +100,22 @@ Chrome plays and Safari shows as black video, so `src/media/mp4File.ts` rewrites
 - Not measured: iPhone/iPad memory limits, a real 5-minute recording, a full 46-clip trip start to finish.
 - The last clip of the sample card (`…081214`) is unreadable (no PAT/PMT) and is skipped with a warning.
 
+## Versions and releases
+
+The version is shown in the tool: bottom of the start page, next to the name in the header, in Settings, and at the top of the Diagnostics report.
+Versions look like `v0.0.0` (major.minor.patch).
+
+The GitHub Action in `.github/workflows/build.yml` builds `DashcamPlayer.html` **on every push** (shown as the `package.json` version plus the short commit,
+for example `v0.1.0 (build 4b9350c)`) **and when a release is published**:
+
+1. Change `"version"` in `package.json` (for example to `0.2.0`) and commit and push.
+2. On GitHub create a release with a new tag `v0.2.0` (the tag must look like `vMAJOR.MINOR.PATCH`).
+3. The Action builds the file with that version and attaches `DashcamPlayer-v0.2.0.html` to the release. Every run also keeps the file as a downloadable
+   artifact on the run's page.
+
+If the tag and `package.json` disagree the Action still builds and shows the tag's version, with a warning. A local `npm run bundle` shows only the
+`package.json` version, so the committed `release/DashcamPlayer.html` does not change with every commit.
+
 ## Build `DashcamPlayer.html`
 
 ```bash
@@ -77,7 +124,7 @@ npm run bundle     # builds and writes release/DashcamPlayer.html
 ```
 
 That is the whole project: `src/` (the app), `index.html`, `vite.config.ts`, `tsconfig.json`, `scripts/bundle.mjs` (inlines the script, styles and
-converter worker into the one file) and the lock file.
+converter worker into the one file), the lock file and `.github/workflows/build.yml` (the build on push and release).
 
 ```
 src/recordings  file-name parsing, front/rear pairing, trip timeline

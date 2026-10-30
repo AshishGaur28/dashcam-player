@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { fmt } from '../app/usePlayback';
 import type { Loaded } from '../app/loadTrip';
 import type { PlaybackController } from '../media/PlaybackController';
+import { VERSION_LABEL } from '../version';
 
 type Diag = ReturnType<PlaybackController['diagnostics']>;
 type Snap = ReturnType<PlaybackController['snapshot']>;
@@ -38,7 +39,7 @@ function Section({ title, hint, children }: { title: string; hint?: string; chil
 }
 
 function report(d: Diag, s: Snap, L: Loaded | null, gpsOffset: number): string {
-  const lines = [`Dashcam Player report`, `Browser: ${navigator.userAgent}`, `Engine: ${d.engine}`, `Position: ${fmt(s.t)} of ${fmt(s.total)} (clip ${s.segIndex + 1}/${s.segCount})`, `Phase: ${d.phase}`, ``, `Counters`];
+  const lines = [`Dashcam Player report`, `Version: ${VERSION_LABEL}`, `Browser: ${navigator.userAgent}`, `Engine: ${d.engine}`, `Position: ${fmt(s.t)} of ${fmt(s.total)} (clip ${s.segIndex + 1}/${s.segCount})`, `Phase: ${d.phase}`, ``, `Counters`];
   for (const [k, label] of COUNTERS) lines.push(`  ${label}: ${d.counters[k]}`);
   lines.push('', 'Clips in memory');
   for (const sl of d.slots) for (const c of sl.cams) lines.push(`  ${sl.slot} ${c.cam}: ${c.file ?? '–'} · ${c.state}${c.error ? ` (${c.error})` : ''} · window ${sl.window ? sl.window.join('–') + ' s' : '–'} · buffered ${c.bufferedAhead ?? '–'} s · frames ${c.totalFrames ?? '–'} (dropped ${c.dropped ?? '–'})`);
@@ -70,6 +71,7 @@ export function DiagnosticsPanel({ ctrl, loaded, gpsOffset }: { ctrl: PlaybackCo
     <section className="diag" aria-label="Diagnostics">
       <div className="dhead">
         <div className="chips">
+          <span>{VERSION_LABEL}</span>
           <span>{browserName(navigator.userAgent)}</span>
           <span>{d.engine}</span>
           <span className={d.phase === 'playing' ? 'ok' : ''}>{d.phase}</span>
